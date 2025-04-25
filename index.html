@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hold Deposit</title>
+  <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+  <h2>Hold Your Security Deposit</h2>
+  <form id="payment-form">
+    <div id="card-element" style="margin-bottom: 10px;"></div>
+    <button type="submit">Authorize Deposit</button>
+  </form>
+
+  <script>
+    const stripe = Stripe('pk_test_51RHjc7R8tELDmf1iaXVdcqX78l7jrLEdIFdpiHY6mFyJxml7n1CIrwjCuYAk1XuksTx2pa9VuPevkixRaHjHr2OA00ULxAImDg'); // ← Replace with your Stripe public key
+    const elements = stripe.elements();
+    const card = elements.create('card');
+    card.mount('#card-element');
+
+    document.getElementById('payment-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const {paymentMethod, error} = await stripe.createPaymentMethod({
+        type: 'card',
+        card: card,
+      });
+
+      if (error) {
+        alert(error.message);
+        return;
+      }
+
+      const res = await fetch('https://lodgify-deposit.onrender.com', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({payment_method_id: paymentMethod.id})
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        alert("Deposit successfully authorized!");
+      } else {
+        alert("Something went wrong: " + data.error);
+      }
+    });
+  </script>
+</body>
+</html>
