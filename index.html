@@ -37,8 +37,9 @@
       const res = await fetch('https://lodgify-deposit.onrender.com/create-deposit', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({payment_method_id: paymentMethod.id})
-        email: document.getElementById('email').value
+        body: JSON.stringify({
+          payment_method_id: paymentMethod.id, email: document.getElementById('email').value
+        })
       });
 
       const data = await res.json();
