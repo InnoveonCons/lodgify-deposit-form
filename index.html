@@ -16,7 +16,7 @@
   </form>
 
   <script>
-    const stripe = Stripe('pk_test_51RHjc7R8tELDmf1iaXVdcqX78l7jrLEdIFdpiHY6mFyJxml7n1CIrwjCuYAk1XuksTx2pa9VuPevkixRaHjHr2OA00ULxAImDg'); // ← Replace with your Stripe public key
+    const stripe = Stripe('pk_live_51RH6wkJN7cIYLXHliKv6OcDsYjbpiAIgqM9JBgYeHXdo9GJtwWaKS7qgF8Wol1yBrH85mX0yCA32K0XT2CI8VFzB007a9c9TW0'); // ← Replace with your Stripe public key
     const elements = stripe.elements();
     const card = elements.create('card');
     card.mount('#card-element');
